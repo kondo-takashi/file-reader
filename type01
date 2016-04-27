@@ -1,28 +1,29 @@
-$openfile = file_get_contents($rack_list_filename);
-$line_array = split("\n", $openfile);
-$num_of_lines = count($line_array);
-$num_of_fields = 0; // initial set
+<?php
 
-foreach($line_array as $line_index=>$line_content){
-	$line_content = trim($line_content); // trim CR/LF
-	if(strlen($line_content) == 0){
-		// cmdb file contents blank line.
-		continue;
-	}
-	$field_array = split("\t", $line_content);
-	if($num_of_fields < count($field_array)){
-		$num_of_fields = count($field_array);
-	}
-	foreach($field_array as $field_index=>$field_content){
-		$length = strlen($field_content);
+	$file_to_read = "";
+	$openfile = file_get_contents($file_to_read);
+	$line_array = split("\n", $openfile);
+	$num_of_lines = count($line_array);
 
-		if(substr($field_content, 0, 1) == "\""){ // enclosed by "
-			$striped_field_content = substr($field_content, 1, $length-2);
-			$multi_rack[$line_index][$field_index] = $striped_field_content;
+	$num_of_fields = 0; // initial set
+
+	foreach($line_array as $line_index => $line_content){
+		printf("line %d: %s\n", $line_index, $line_content);
+
+		$field_array = preg_split("/[\s]+/", $line_content); // space separation
+		// $field_array = preg_split("\t", $line_content); // tab separation
+		// $field_array = preg_split(",", $line_content); // commna separation
+
+		if($num_of_fields < count($field_array)){
+			$num_of_fields = count($field_array);
 		}
-		else{
-			$multi_rack[$line_index][$field_index] = $field_content;
 
+
+		foreach($field_array as $field_index => $field_content){
+			printf("field %d: %s\n", $field_index, $field_content);
 		}
 	}
-}
+
+	printf("# of lines: %s\n# of fields (max): %s\n", $num_of_lines, $num_of_fields);
+
+?>
