@@ -12,7 +12,7 @@
 
 		$field_array = preg_split("/[\s]+/", $line_content); // space separation
 		// $field_array = preg_split("\t", $line_content); // tab separation
-		// $field_array = preg_split(",", $line_content); // commna separation
+		// $field_array = preg_split("/[,]/", $line_content); // commna separation
 
 		if($num_of_fields < count($field_array)){
 			$num_of_fields = count($field_array);
